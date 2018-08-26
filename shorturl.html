@@ -1,0 +1,47 @@
+<html>
+    <header>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    </header>
+    <head>
+            <link rel="stylesheet" href="url.css">
+          </head>
+  <body>
+    <h1>URL Shortner</h1>
+    <div class=main>
+    
+    <p><div class=form align=center>
+    <form method="POST" action="localhost:7000/short">
+      <br>
+ <label> Original URL:</label>
+  <input type="text" id="originalUrl" name="originalUrl" placeholder="valid url"><br><br>
+ <label> Base URL:</label>
+  <input type="text" id="shortBaseUrl" name="shortBaseUrl" placeholder="http://localhost"><br>
+  <br>
+  <input id='button' type="submit" value="Submit">
+</form>
+<p class=end align=center>Shortened url is: </p>
+    <div id="shortURL"></div>
+    </div>
+    </p>
+    </div>
+    <script>
+            $(document).ready(function(){
+                $("#button").click(function(){
+                    $.post("http://localhost:7000/short",
+                    {
+                        originalUrl: document.getElementById("originalUrl").value,
+                        shortBaseUrl: document.getElementById("shortBaseUrl").value
+                    },
+                    function(data){
+                        console.log("the data is ",data)
+                        let divTag = document.getElementById("shortURL");
+                        let anchorTag = document.createElement("a");
+                        anchorTag.setAttribute("href",data.original);
+                        anchorTag.innerHTML = data.shortUrl;
+                        divTag.appendChild(anchorTag);
+                    });
+                });
+            });
+    </script>
+    </body>
+</html>
